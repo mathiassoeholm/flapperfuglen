@@ -1,0 +1,18 @@
+{
+  "name": "flapperfuglen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild src/index.ts --bundle --outfile=out.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.14.48",
+    "playcanvas": "^1.54.1",
+    "typescript": "^4.7.4"
+  }
+}
