@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.ts --bundle --outfile=out.js",
-    "push": "yarn pcsync push out.js"
+    "build": "esbuild src/index.ts --bundle --outfile=source.js",
+    "push": "yarn pcsync push source.js",
+    "open": "open https://playcanvas.com/editor/project/955349"
   },
   "keywords": [],
   "author": "",
