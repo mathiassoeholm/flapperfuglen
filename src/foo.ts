@@ -5,7 +5,7 @@ var Foo = pc.createScript("foo")!;
 // initialize code called once per entity
 Foo.prototype.initialize = function () {
   //this.lastX = this.entity.getPosition().x;
-  console.log(returnTwo());
+  console.log(returnTwo() + "1");
 };
 
 // update code called every frame
