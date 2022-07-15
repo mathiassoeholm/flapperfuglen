@@ -1,4 +1,20 @@
+import { Entity, Vec2, Vec3, Vec4 } from "playcanvas";
+
 type EntityArgs = Parameters<pc.ScriptAttributes["add"]>[1];
+interface EntityTypes {
+  boolean: boolean;
+  number: number;
+  string: string;
+  json: null;
+  asset: null;
+  entity: Entity;
+  rgb: null;
+  rgba: null;
+  vec2: Vec2;
+  vec3: Vec3;
+  vec4: Vec4;
+  curve: null;
+}
 
 const createScript = <
   TAttributes extends {
@@ -6,49 +22,56 @@ const createScript = <
   }
 >(
   name: string,
-  create: () => {
+  {
+    attributes,
+    initialize,
+    update,
+  }: {
     attributes?: TAttributes;
     initialize?: (this: pc.ScriptType) => void;
-    update?: (this: pc.ScriptType, dt: number) => void;
-  }
+    update?: (
+      this: pc.ScriptType & {
+        [K in keyof TAttributes]: EntityTypes[TAttributes[K]["type"]];
+      },
+      dt: number
+    ) => void;
+  } = {}
 ) => {
   var Script = pc.createScript(name)!;
 
-  const script = create();
-
-  if (script.attributes) {
-    Object.keys(script.attributes).forEach((a) =>
-      Script.attributes.add(a, script.attributes![a])
+  if (attributes) {
+    Object.keys(attributes).forEach((a) =>
+      Script.attributes.add(a, attributes![a])
     );
   }
 
   Script.prototype.initialize = function () {
-    script.initialize?.call(this);
+    initialize?.call(this);
   };
 
   Script.prototype.update = function (dt) {
-    script.update?.call(this, dt);
+    update?.call(this, dt);
   };
 };
 
-createScript("addToScore", () => {
-  let lastX = 0;
+let lastX = 0;
 
-  return {
-    attributes: {
-      bird: { type: "entity" },
-    },
-    initialize() {
-      lastX = this.entity.getPosition().x;
-    },
-    update() {
-      const app = this.app;
-      const birdX = this.bird.getPosition().x;
-      const pipeX = this.entity.getPosition().x;
-      if (pipeX <= birdX && lastX > birdX) {
-        app.fire("game:addscore");
-      }
-      lastX = pipeX;
-    },
-  };
+createScript("addToScore", {
+  attributes: {
+    bird: { type: "entity" },
+    pos: { type: "vec4" },
+  },
+  initialize() {
+    lastX = this.entity.getPosition().x;
+  },
+  update() {
+    const app = this.app;
+    const birdX = this.bird.getPosition().x;
+    const pipeX = this.entity.getPosition().x;
+
+    if (pipeX <= birdX && lastX > birdX) {
+      app.fire("game:addscore");
+    }
+    lastX = pipeX;
+  },
 });
