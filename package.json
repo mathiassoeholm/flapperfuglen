@@ -8,7 +8,7 @@
     "build": "esbuild src/index.ts --bundle --outfile=source.js",
     "push": "yarn pcsync push source.js",
     "sync": "yarn build && yarn push",
-    "open": "open https://playcanvas.com/editor/project/955349"
+    "editor": "open https://playcanvas.com/editor/project/955349"
   },
   "keywords": [],
   "author": "",
