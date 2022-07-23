@@ -23,28 +23,3 @@ createScript("addToScore", {
     this.lastX = pipeX;
   },
 });
-
-function createScript2<
-  T extends { __name: string; prototype: PlayCanvasScript }
->(ScriptClass: T) {
-  const Script = pc.createScript("asffasd")!;
-  if (ScriptClass.prototype.initialize) {
-    Script.prototype.initialize = ScriptClass.prototype.initialize;
-  }
-  if (ScriptClass.prototype.update) {
-    Script.prototype.update = ScriptClass.prototype.update;
-  }
-}
-
-interface PlayCanvasScript {
-  initialize?: pc.ScriptType["initialize"];
-  update?: pc.ScriptType["update"];
-}
-
-class AddToScore implements PlayCanvasScript {
-  public static __name = "addToScore";
-  public initialize() {}
-  public update = (dt) => {};
-}
-
-createScript2(AddToScore);
