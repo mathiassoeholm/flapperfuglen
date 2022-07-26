@@ -101,7 +101,7 @@ createScript("game", {
     });
 
     app.on("game:addscore", () => {
-      this.score++;
+      this.score += 100;
       app.fire("ui:score", this.score);
       app.fire("game:audio", "Point");
     });

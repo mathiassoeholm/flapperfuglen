@@ -5,7 +5,7 @@ var Baz = pc.createScript("baz")!;
 // initialize code called once per entity
 Baz.prototype.initialize = function () {
   //this.lastX = this.entity.getPosition().x;
-  console.log(returnTwo() + "1");
+  console.log(returnTwo() + "2");
 };
 
 // update code called every frame

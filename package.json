@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.ts --bundle --outfile=source.js",
+    "build": "esbuild src/index.ts --bundle --outfile=build/source.js",
     "build:watch": "concurrently \"yarn build --watch\" \"pcwatch --force\"",
-    "push": "yarn pcsync push source.js",
+    "push": "yarn pcsync push build/source.js",
     "sync": "yarn build && yarn push",
     "editor": "open https://playcanvas.com/editor/project/955349"
   },
