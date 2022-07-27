@@ -16,9 +16,7 @@ interface EntityTypes {
   curve: null;
 }
 
-type Attributes = { [key: string]: EntityArgs };
-
-function createScript<
+export function createScript<
   T extends {
     __name: string;
     attributes?: {
@@ -27,49 +25,34 @@ function createScript<
     prototype: PlayCanvasScript;
   }
 >(ScriptClass: T) {
-  const Script = pc.createScript("asffasd")!;
+  const Script = pc.createScript(ScriptClass.__name)!;
+  if (ScriptClass.attributes) {
+    Object.keys(ScriptClass.attributes).forEach((a) =>
+      Script.attributes.add(a, ScriptClass.attributes![a])
+    );
+  }
+
   if (ScriptClass.prototype.initialize) {
     Script.prototype.initialize = ScriptClass.prototype.initialize;
   }
+
   if (ScriptClass.prototype.update) {
     Script.prototype.update = ScriptClass.prototype.update;
   }
 }
 
-interface PlayCanvasScript {
+export interface PlayCanvasScript {
   initialize?: pc.ScriptType["initialize"];
   update?: pc.ScriptType["update"];
 }
 
-type ThisType<T extends { attributes: Attributes }> = T extends {
+export type ThisType<T> = T extends {
   attributes: infer TAttributes;
-}
+} & (new () => infer Q)
   ? TAttributes extends { [key: string]: EntityArgs }
-    ? T extends new () => infer Q
-      ? {
-          [K in keyof TAttributes]: EntityTypes[TAttributes[K]["type"]];
-        } & ScriptType &
-          Q
-      : never
+    ? {
+        [K in keyof TAttributes]: EntityTypes[TAttributes[K]["type"]];
+      } & ScriptType &
+        Q
     : never
   : never;
-
-type This = ThisType<typeof AddToScore>;
-
-class AddToScore implements PlayCanvasScript {
-  public static __name = "addToScore";
-
-  public static attributes = {
-    velocity: { type: "number" },
-  } as const;
-
-  constructor() {}
-
-  public initialize(this: This) {}
-
-  public update(this: This, dt: number) {}
-
-  private reset() {}
-}
-
-createScript(AddToScore);
