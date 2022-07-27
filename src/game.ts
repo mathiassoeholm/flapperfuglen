@@ -1,20 +1,6 @@
 import { Entity } from "playcanvas";
 import { createScript } from "./create-script";
 
-// The correct way to verify the availability of the local storage API taken from:
-// https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-function storageAvailable() {
-  try {
-    var storage = window.localStorage,
-      x = "__storage_test__";
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
 createScript("game", {
   fields: {
     score: 0,
@@ -23,11 +9,9 @@ createScript("game", {
   initialize() {
     const app = this.app;
 
-    if (storageAvailable()) {
-      this.bestScore = parseInt(
-        localStorage.getItem("Flappy Bird Best Score") || "0"
-      );
-    }
+    this.bestScore = parseInt(
+      localStorage.getItem("Flappy Bird Best Score") || "0"
+    );
 
     app.on(
       "game:menu",
@@ -90,9 +74,7 @@ createScript("game", {
       // Check if we have a new high score and write it to local storage
       if (this.score > this.bestScore) {
         this.bestScore = this.score;
-        if (storageAvailable()) {
-          localStorage.setItem("Flappy Bird Best Score", this.score.toString());
-        }
+        localStorage.setItem("Flappy Bird Best Score", this.score.toString());
       }
 
       setTimeout(() => {
@@ -101,7 +83,7 @@ createScript("game", {
     });
 
     app.on("game:addscore", () => {
-      this.score += 100;
+      this.score++;
       app.fire("ui:score", this.score);
       app.fire("game:audio", "Point");
     });

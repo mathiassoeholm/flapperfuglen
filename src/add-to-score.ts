@@ -6,11 +6,9 @@ createScript("addToScore", {
   },
   attributes: {
     bird: { type: "entity" },
-    pos: { type: "vec4" },
   },
   initialize() {
     this.lastX = this.entity.getPosition().x;
-    console.log(this.pos);
   },
   update() {
     const app = this.app;
