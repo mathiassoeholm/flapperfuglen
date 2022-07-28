@@ -1,4 +1,4 @@
-import { Entity } from "playcanvas";
+import type { Entity } from "playcanvas";
 import { createScript } from "./create-script";
 
 createScript("game", {

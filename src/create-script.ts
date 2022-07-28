@@ -1,4 +1,4 @@
-import { Entity, Vec2, Vec3, Vec4 } from "playcanvas";
+import type { Entity, Vec2, Vec3, Vec4 } from "playcanvas";
 
 type EntityArgs = Parameters<pc.ScriptAttributes["add"]>[1];
 interface EntityTypes {
