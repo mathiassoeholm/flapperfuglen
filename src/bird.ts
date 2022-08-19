@@ -24,8 +24,11 @@ class Bird extends pc.ScriptType {
   private pipes?: Entity[];
 
   public initialize(this: This) {
-    console.log("Initialize!!!");
     const app = this.app;
+
+    this.initialPos = this.entity.getPosition().clone();
+    this.initialRot = this.entity.getRotation().clone();
+
     this.pipes = app.root.findByTag("pipe") as Entity[];
 
     app.on("game:pause", () => {
