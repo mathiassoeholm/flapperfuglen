@@ -1,10 +1,10 @@
 import { StorageWithoutDefaults, withDefaultValues } from "./storage-models";
 
 const storageWithoutDefaults: StorageWithoutDefaults = {
-  setItem(key, value) {
+  async setItem(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
   },
-  getItem(key) {
+  async getItem(key) {
     const item = localStorage.getItem(key);
     if (item === null) {
       return undefined;

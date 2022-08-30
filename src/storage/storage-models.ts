@@ -9,20 +9,20 @@ type Key = keyof typeof defaultValue;
 type Value<K extends Key> = typeof defaultValue[K];
 
 export interface StorageWithoutDefaults {
-  setItem<K extends Key>(key: K, value: Value<K>): void;
-  getItem<K extends Key>(key: K): Value<K> | undefined;
+  setItem<K extends Key>(key: K, value: Value<K>): Promise<void>;
+  getItem<K extends Key>(key: K): Promise<Value<K> | undefined>;
 }
 
 export interface Storage extends StorageWithoutDefaults {
-  getItem<K extends Key>(key: K): Value<K>;
+  getItem<K extends Key>(key: K): Promise<Value<K>>;
 }
 
 export const withDefaultValues = (
   storage: StorageWithoutDefaults
 ): Storage => ({
   ...storage,
-  getItem(key) {
-    const item = storage.getItem(key);
+  async getItem(key) {
+    const item = await storage.getItem(key);
     if (item === undefined) {
       return defaultValue[key];
     }
